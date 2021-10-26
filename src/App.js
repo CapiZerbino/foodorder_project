@@ -1,11 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Order from './screens/Order'
+import GlobalStyle from './styles/GlobalStyle'
+import Typography from './styles/Typography'
 function App() {
   return (
-    <div className="App">
-      nghiatieu
-    </div>
+    <>
+      <GlobalStyle/>
+      <Typography/>
+      <Order></Order>
+    </>
   );
 }
 
