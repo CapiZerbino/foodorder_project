@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/foodorder_project/static/js/main.17d24e01.chunk.js",
-    "main.js.map": "/foodorder_project/static/js/main.17d24e01.chunk.js.map",
+    "main.js": "/foodorder_project/static/js/main.3ce3a408.chunk.js",
+    "main.js.map": "/foodorder_project/static/js/main.3ce3a408.chunk.js.map",
     "runtime-main.js": "/foodorder_project/static/js/runtime-main.4db47ce3.js",
     "runtime-main.js.map": "/foodorder_project/static/js/runtime-main.4db47ce3.js.map",
-    "static/js/2.6b3a5073.chunk.js": "/foodorder_project/static/js/2.6b3a5073.chunk.js",
-    "static/js/2.6b3a5073.chunk.js.map": "/foodorder_project/static/js/2.6b3a5073.chunk.js.map",
+    "static/js/2.e70f6c2e.chunk.js": "/foodorder_project/static/js/2.e70f6c2e.chunk.js",
+    "static/js/2.e70f6c2e.chunk.js.map": "/foodorder_project/static/js/2.e70f6c2e.chunk.js.map",
     "index.html": "/foodorder_project/index.html",
-    "static/js/2.6b3a5073.chunk.js.LICENSE.txt": "/foodorder_project/static/js/2.6b3a5073.chunk.js.LICENSE.txt"
+    "static/js/2.e70f6c2e.chunk.js.LICENSE.txt": "/foodorder_project/static/js/2.e70f6c2e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4db47ce3.js",
-    "static/js/2.6b3a5073.chunk.js",
-    "static/js/main.17d24e01.chunk.js"
+    "static/js/2.e70f6c2e.chunk.js",
+    "static/js/main.3ce3a408.chunk.js"
   ]
 }
