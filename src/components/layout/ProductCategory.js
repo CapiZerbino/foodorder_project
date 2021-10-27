@@ -82,11 +82,11 @@ function ProductCategory(props) {
           <Tab label={item}  {...a11yProps({key})}/>
         )) : (<Tab label="Default"  {...a11yProps(0)}/>)}
       </Tabs>
-      <Typography variant="h5" color="white" sx={{marginBlock: 3,paddingInlineStart: 3}}>Choose menu</Typography> 
+      <Typography variant="h6" color="black" sx={{marginBlock: 3,paddingInlineStart: 3}}>Choose menu</Typography> 
       {category ? category.map((item, key) => (
         <TabPanel value={value} index={key}>
           <ProductList products = {products.filter(function (el) {
-            return el["category"] == item;
+            return el["category"] == item && el["is_available"] == true;
           })} onAdd={props.onAdd}/>
         </TabPanel>
         )) : (

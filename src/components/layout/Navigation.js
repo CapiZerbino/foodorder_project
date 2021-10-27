@@ -56,15 +56,21 @@ const Search = styled('div')(({ theme }) => ({
 function Navigation() {
     return (
     <Box sx={{ flexGrow: 1}}>
-      <AppBar position="static" sx={{ bgcolor: '#252836', top: 0,}}>
+      <AppBar  position="absolute"
+        color="default"
+        elevation={0}
+        sx={{
+          position: 'relative',
+          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        }}>
         <Toolbar>
           <Typography
             variant="h4"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontWeight: "bold", color: "#2E3A55" }}
           >
-            Hao Hao Restaurant
+            Lau Chay Restaurant
           </Typography>
           <Search>
             <SearchIconWrapper>
