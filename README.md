@@ -1,70 +1,108 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY - HO CHI MINH NATIONAL UNIVERSITY
+## SOFTWARE ENGINEERING PROJECT - SEMESTER 211
+# Restaurant POS System 2.0
 
-## Available Scripts
+**Contains:**
+* [About the team](#about-the-team)
+* [Project Introduction](#project-introduction)
+* [Installation](#installation)
 
-In the project directory, you can run:
+### About the team
 
-### `npm start`
+<table>
+    <tr>
+        <th>Name</th>
+        <td>Order Food</td>
+    </tr>
+    <tr>
+        <th>Phạm Văn Minh Toàn</th>
+        <td>1953028</td>
+    </tr>
+    <tr>
+        <th>Hoàng Hà Giang</th>
+        <td>1952659</td>
+    </tr>
+    <tr>
+        <th>Tiêu Viết Trọng Nghĩa</th>
+        <td>1852611</td>
+    </tr>
+    <tr>
+        <th>Nguyễn Khương</th>
+        <td>1952310</td>
+    </tr>
+    <tr>
+        <th>Trần Quốc Duy</th>
+        <td>1952214</td>
+    </tr>
+</table>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Project Introduction
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+In this project, we developed a web-based POS system for restaurants systems. 
 
-### `npm test`
+**Point of sale** (POS) or **point of purchase** (POP) is the time and place where a retail transaction is completed.
+At the POS, the merchant calculates the amount owed by the customer, indicates that amount, may prepare an invoice for the customer, and indicates the options for the customer to make payment.
+A restaurant POS system is a system of hardware and software that work together to handle workflow and transactions for a food and beverage business.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Even before the COVID-19 crisis, POS systems had sprung up everywhere across the industry.
+During the Covid-19 pandemic, restaurants are facing greater peril than ever, modern restaurant POS systems are expected to help a restaurant thrive in many ways:
+* Increase sales
+* Improve customers experience
+* Inform owners’ business decisions
+* Reduce wasted effort
+* Opportunity to scale to a large business
 
-### `npm run build`
+Many of the specific benefits within these categories are interconnected.
+Make more informed business decisions, and your service will likely improve.
+Improve your service, and your sales will see a boost as well – a happy domino effect that makes running a better business that much easier.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+POS systems provide customers with a restaurant in their pockets, with simple and indirect access to all the restaurant services anywhere, at any time, which brings huge convenience.
+This raises a plus point on customers’ mentality who concerns about health during COVID-19 pandemic.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project's documentation comes with the following files:
+* README.md
+* requirements.md
+* System-modelling.md
+* Architectural Design.md
+* Folder of diagrams
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
+Hướng dẫn khởi tạo môi trường trên Linux:
 
-### `npm run eject`
+Bước 1: Cài đặt PHP và MySQL <br>
+<code>apt-get install mysql-server </code> <br>
+<code>sudo apt install php7.4 php7.4-common php7.4-cli php7.4-xml php7.4-curl php7.4-json php7.4-gd php7.4-mbstring php7.4-intl 
+php7.4-bcmath php7.4-bz2 php7.4-readline php7.4-zip php7.4-mysql</code><br>
+Bước 1b: Cài đặt composer<br>
+<code> curl -sS https://getcomposer.org/installer | php </code><br>
+<code> mv composer.phar /usr/bin/composer</code> <br>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Bước 2a: Kéo repo về <br>
+Bước 2b: Di chuyển vào thư mục vừa kéo về <br>
+<code>cd CRM-System</code><br>
+Bước 2c: Tải vendors về <br>
+<code>composer install</code><br>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Bước 3: Copy file .env<br>
+<code>copy .env.example .env</code><br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Bước 4: Điều chỉnh trên file .env như sau:<br>
+DB_HOST=localhost<br>
+DB_DATABASE=laravel<br>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Bước 5: Chạy dịch vụ mySQL trên linux<br>
+<code>service mysql start</code><br>
 
-## Learn More
+Bước 6:Truy cập mySQL<br>
+<code>mysql -u root -p</code><br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Bước 7: Nhập lệnh dưới vào mysql CLI<br>
+CREATE DATABASE laravel;<br>
+exit;<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Bước 8: Khởi tạo database trên MySQL<br>
+<code>php artisan migrate --seed</code><br>
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Bước 9: Chạy web<br>
+<code>php artisan serve</code><br>
