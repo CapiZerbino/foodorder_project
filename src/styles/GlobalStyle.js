@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     font-family: 'Noto Sans', sans-serif;
     background-color: "#F5F5F5";
+    
   }
   ul,li{
     list-style: none;

@@ -10,11 +10,9 @@ function App() {
       <Typography/>
       <Router>
         <Switch>
-          <Route exact path="/">
-            <Order></Order>
+          <Route exact path="/" component={Order} >
           </Route>
-          <Route path="/checkout">
-            <Checkout/>
+          <Route path="/checkout" component={Checkout}>
           </Route>
         </Switch>
       </Router>

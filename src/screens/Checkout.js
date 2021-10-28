@@ -19,14 +19,14 @@ import Review from './../components/layout/Review';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step) {
+function getStepContent(step, cartItems) {
   switch (step) {
     case 0:
       return <AddressForm />;
     case 1:
       return <PaymentForm />;
     case 2:
-      return <Review />;
+      return <Review cartItems={cartItems}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -34,11 +34,12 @@ function getStepContent(step) {
 
 const theme = createTheme();
 
-export default function Checkout() {
+export default function Checkout(props) {
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const cartItems = props.match.params.cartItems;
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    console.log(cartItems)
   };
 
   const handleBack = () => {
@@ -94,7 +95,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, cartItems)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
