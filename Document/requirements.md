@@ -27,7 +27,13 @@ POS systems provide customers with a restaurant in their pockets, with simple an
 This raises a plus point on customers’ mentality who concerns about health during COVID-19 pandemic.
 
 **Stakeholders in the system:**
-Clerks, Customers, Kitchen, Owner, Suppliers, Accountants
+* Clerks: Create, confirm and record orders.
+* Customers: Order and make payments.
+* Kitchen Staff: Make food according to the orders.
+* Owner: Manage the daily operations of the restaurant as well as its overall direction, profitability, and reputation.
+* Suppliers: Supply the ingredients to the restaurant.
+* Accountants: Analyzing data, finance reports, budgets, tax returns, and accounting records.
+
 
 **Expected to be done:**
 * Remote orders and reservations.
@@ -81,12 +87,12 @@ System side:
 **Non-functional requirements:**
 * Clerks should be able to function the systems after 2 hours of training.
 * Users should be able to use basic functions right away upon accessing the websites (make an order, reserve a table,...)
-* System will be on 24/24.
-* Can be accessed from mobile, tablet and laptop.
+* System will be available 24/24.
+* System will be multi-platform.
 * Users don’t need to install in order to use this application.
 * Can handle an average amount of 300 orders per day.
-* Security, customers and transaction information are protected.
-* Scalability, the system should be general enough and extendable for applying in other restaurants.
+* Security: customers and transaction information are protected.
+* Scalability: the system should be general enough and extendable for applying in other restaurants.
 * Support multiple payment methods.
 * Customer information and previous purchase should be stored for later use.
 
