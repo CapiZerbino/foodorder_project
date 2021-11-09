@@ -6,13 +6,11 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from "@mui/material/Grid";
-import Collapse from '@mui/material/Collapse';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import CardMedia from "@mui/material/CardMedia";
 import Divider from '@mui/material/Divider';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
+import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
+import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -28,36 +26,21 @@ const style = {
 
   
 function ModelProductItem(props) {
-    const { product, onAdd, onRemove } = props;
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [checked, setChecked] = React.useState(false);
-
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
+  const { product, onAdd, onRemove} = props;
     return (
         <div>
-      {/* <Button variant="contained" size="small" onClick={handleOpen} endIcon={<ShoppingCartIcon />}>Add</Button> */}
-      <Box style={{color: 'red', marginInlineEnd: 6}}>
-      <IconButton aria-label="delete" size="large" style={{color: 'red', marginInlineEnd: 6}} onClick={handleOpen}>
-            <ShoppingCartIcon fontSize="medium" />
-      </IconButton>
-      </Box>
-      
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={props.open}
+        onClose={props.handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={props.open}>
           <Box sx={style}>
             <Grid container rowSpacing={{ xs: 1, sm: 2, md: 3 }}  direction="row" justifyContent="space-between"  alignItems="center">
                 <Grid item container xs={2} sm={2} md={2} direction="column" justifyContent="center"  alignItems="center"> 
@@ -85,11 +68,16 @@ function ModelProductItem(props) {
                     <Divider variant="middle" component="li" sx={{width: "100%", marginBlock: 1}} />
                     <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
                         <Grid item container xs={6} sm={6} md={6}  direction="column" justifyContent="center"  alignItems="flex-start"> 
-                            <Typography variant="h6" color="black">Available Item</Typography>
+                            <Typography variant="h6" color="black">Available Item: {product.quantity}</Typography>
                             
                         </Grid>
                         <Grid item container xs={6} sm={6} md={6}  direction="row" justifyContent="flex-end"  alignItems="center"> 
-                            <Typography variant="body1" color="black">{product.quantity}</Typography>
+                            <IconButton aria-label="Decrease" onClick={() => onRemove(product)}>
+                                <IndeterminateCheckBoxRoundedIcon color="action" style={{color: "#E43122"}}/>  
+                            </IconButton>
+                            <IconButton aria-label="Increase" onClick={() => onAdd(product)}>
+                                <AddBoxRoundedIcon color="action" style={{color: "#E43122"}}/>  
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Divider variant="middle" component="li" sx={{width: "100%", marginBlock: 1}} />

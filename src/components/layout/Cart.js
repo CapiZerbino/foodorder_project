@@ -10,12 +10,13 @@ import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateC
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import ModelCustomer from './ModelCustomer'
 import {Link} from 'react-router-dom'
 import List from '@mui/material/List';
 import ListItem from "@mui/material/ListItem";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Toolbar from "@mui/material/Toolbar";
+
+
 var h = window.innerHeight;
 const bottomHeight = h* 0.4;
 const middleHeight = h * 0.5;
@@ -38,6 +39,8 @@ function Cart(props) {
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
   const discount = itemsPrice * 0.14;
   const totalPrice = itemsPrice - discount;
+
+  
 
   function validateCoupon(cp) {
     if(cp === null) return false;
@@ -132,8 +135,13 @@ function Cart(props) {
         </Grid>
         <Grid item container xs={12} sm={12} md={12} direction="row" justifyContent="center"  alignItems="center"> 
           {/* <ModelCustomer></ModelCustomer> */}
-          <Link to={`/checkout/${cartItems}`} style={{width: "100%"}}>
-              <Button variant="contained" size="large" style={{backgroundColor:"#E43122", height: 50, borderRadius: 10}} fullWidth= {true}>Continue to payment</Button>
+          <Link style={{width: "100%"}} to={{pathname: '/checkout', cartItems }}>
+              <Button 
+              variant="contained" 
+              size="large" 
+              style={{backgroundColor:"#E43122", height: 50, borderRadius: 10}} 
+              fullWidth= {true} 
+              >Continue to payment</Button>
           </Link>
         </Grid>
       </Grid>

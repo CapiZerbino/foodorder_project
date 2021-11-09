@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import Navigation from "./../components/layout/Navigation";
 import ProductCategory from "./../components/layout/ProductCategory";
 import Cart from "./../components/layout/Cart";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import data from "./../config/config";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -14,12 +10,6 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const drawerWidth = 500;
 
@@ -29,10 +19,13 @@ function Order() {
 
   const onAdd = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);
+    
     if (exist) {
       setCartItems(
         cartItems.map((x) =>
-          x.id === product.id ? { ...exist, qty: exist.qty + 1 } : x
+          x.id === product.id ? { 
+            ...exist, 
+            qty: exist.qty >= product.quantity ? product.quantity : exist.qty + 1} : x
         )
       );
     } else {
@@ -41,7 +34,9 @@ function Order() {
   };
   const onRemove = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);
-    if (exist.qty === 1) {
+    if(exist === undefined){
+      return;
+    } else if (exist.qty === 1) {
       setCartItems(cartItems.filter((x) => x.id !== product.id));
     } else {
       setCartItems(
@@ -82,7 +77,7 @@ function Order() {
         sx={{ flexGrow: 1, bgcolor: "background.default", width: "100%" }}
       >
         <Toolbar />
-        <ProductCategory products={products} onAdd={onAdd}></ProductCategory>
+        <ProductCategory products={products} onAdd={onAdd} onRemove={onRemove}></ProductCategory>
       </Box>
       <Drawer
         sx={{

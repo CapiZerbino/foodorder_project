@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React , {useState, useEffect} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,7 +9,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './../components/layout/AddressForm';
@@ -17,16 +16,16 @@ import PaymentForm from './../components/layout/PaymentForm'
 import Review from './../components/layout/Review';
 
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
-function getStepContent(step, cartItems) {
+function getStepContent(step, cartItems, getData) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressForm sendData={getData}/>;
     case 1:
-      return <PaymentForm />;
-    case 2:
       return <Review cartItems={cartItems}/>;
+    case 2:
+      return <PaymentForm />;
     default:
       throw new Error('Unknown step');
   }
@@ -35,11 +34,22 @@ function getStepContent(step, cartItems) {
 const theme = createTheme();
 
 export default function Checkout(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const cartItems = props.match.params.cartItems;
+  const [activeStep, setActiveStep] = useState(0);
+  const { cartItems} = (props.location) || {};
+  const [ship, setShip] = useState(null);
+  useEffect(() => {
+   
+    console.log("Checkout: " + ship);
+    return () => {
+    };
+  }, [ship]);
+
+  const getData = (data) => {
+    setShip(data);
+  }
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    console.log(cartItems)
   };
 
   const handleBack = () => {
@@ -95,7 +105,7 @@ export default function Checkout(props) {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep, cartItems)}
+                {getStepContent(activeStep, cartItems, getData)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

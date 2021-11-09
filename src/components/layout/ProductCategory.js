@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -90,7 +90,7 @@ function ProductCategory(props) {
         <TabPanel value={value} index={key}>
           <ProductList products = {products.filter(function (el) {
             return el["category"] == item && el["is_available"] == true;
-          })} onAdd={props.onAdd}/>
+          })} onAdd={props.onAdd} onRemove={props.onRemove}/>
         </TabPanel>
         </ListItem>
         
