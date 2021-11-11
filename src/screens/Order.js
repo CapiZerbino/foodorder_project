@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
+import axios from "axios";
 import ProductCategory from "./../components/layout/ProductCategory";
 import Cart from "./../components/layout/Cart";
 import Box from "@mui/material/Box";
@@ -14,8 +15,22 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 const drawerWidth = 500;
 
 function Order() {
-  const { products } = data;
+  const  {products} = data;
+  // const [products, setProducts] = useState([])
   const [cartItems, setCartItems] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchdata() {
+  //     // const product = await data;
+  //     // console.log("product");
+  //     // console.log(product);
+  //     const response =  await axios.get(`http://34.126.93.124/api/menu`);
+      
+  //     console.log(product.data.data)
+  //     setProducts(product.data.data);
+  //   }
+  //   fetchdata();
+  // }, [])
 
   const onAdd = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);

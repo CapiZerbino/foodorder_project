@@ -1,4 +1,5 @@
 import React , {useState, useEffect} from 'react';
+import axios from "axios";
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,14 +19,14 @@ import Review from './../components/layout/Review';
 
 const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
-function getStepContent(step, cartItems, getData) {
+function getStepContent(step, cartItems, getData, shipInfo, totalPrice, handleSubmit) {
   switch (step) {
     case 0:
       return <AddressForm sendData={getData}/>;
     case 1:
-      return <Review cartItems={cartItems}/>;
+      return <Review cartItems={cartItems} shipInfo={shipInfo}/>;
     case 2:
-      return <PaymentForm />;
+      return <PaymentForm totalPrice={totalPrice} handleSubmit={handleSubmit}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -35,17 +36,20 @@ const theme = createTheme();
 
 export default function Checkout(props) {
   const [activeStep, setActiveStep] = useState(0);
-  const { cartItems} = (props.location) || {};
+  const {cartItems} = (props.location) || {};
   const [ship, setShip] = useState(null);
+  const itemsPrice = cartItems ? cartItems.reduce((a, c) => a + c.qty * c.price, 0) : 0;
+  const totalPrice = itemsPrice ;
   useEffect(() => {
-   
-    console.log("Checkout: " + ship);
+    console.log("Checkout: " + JSON.stringify(ship));
+    console.log("Total price: " + totalPrice);
     return () => {
     };
   }, [ship]);
 
   const getData = (data) => {
     setShip(data);
+    console.log(cartItems);
   }
 
   const handleNext = () => {
@@ -55,6 +59,32 @@ export default function Checkout(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const handleSubmit = () => {
+    // event.preventDefault();
+    const data = {
+      customer_id: "1",
+      "phoneNumber": ship.phoneNumber,
+      "total": totalPrice.toString() ,
+      "voucher_id": null,
+      "address": ship.address,
+      "payment_method" : "paypal",
+      "order_items": cartItems.map((item) => {
+          return {"menu_id" : item.id.toString(), "quantity": item.qty.toString()};
+        })
+      
+    }
+    console.log(JSON.stringify(data));
+    
+    axios.post(`http://34.126.93.124/api/order`, JSON.stringify(data))
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        
+      })
+    handleNext();
+  }
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -98,14 +128,12 @@ export default function Checkout(props) {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  Your order number is #2001539.
                 </Typography>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep, cartItems, getData)}
+                {getStepContent(activeStep, cartItems, getData, ship, totalPrice, handleSubmit)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
@@ -115,7 +143,7 @@ export default function Checkout(props) {
 
                   <Button
                     variant="contained"
-                    onClick={handleNext}
+                    onClick={handleNext }
                     sx={{ mt: 3, ml: 1 }}
                     style={{backgroundColor:"#E43122", borderRadius: 10}}
                   >

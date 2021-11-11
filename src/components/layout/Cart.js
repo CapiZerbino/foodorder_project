@@ -37,7 +37,7 @@ function Cart(props) {
   const {perDiscount, setPerDiscount} = useState(0);
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
-  const discount = itemsPrice * 0.14;
+  const discount = itemsPrice * 0;
   const totalPrice = itemsPrice - discount;
 
   
