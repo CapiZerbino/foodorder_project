@@ -1,9 +1,10 @@
 import React, { useState , useEffect} from "react";
 import axios from "axios";
+import { styled, alpha } from '@mui/material/styles';
 import ProductCategory from "./../components/layout/ProductCategory";
 import Cart from "./../components/layout/Cart";
 import Box from "@mui/material/Box";
-import data from "./../config/config";
+// import data from "./../config/config";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,26 +12,34 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-
+import Search from './../components/layout/Search'
 const drawerWidth = 500;
 
+
+
 function Order() {
-  const  {products} = data;
+  // const  {menu} = data;
+  const [products, setListProduct] = useState([]);
   // const [products, setProducts] = useState([])
   const [cartItems, setCartItems] = useState([]);
 
-  // useEffect(() => {
-  //   async function fetchdata() {
-  //     // const product = await data;
-  //     // console.log("product");
-  //     // console.log(product);
-  //     const response =  await axios.get(`http://34.126.93.124/api/menu`);
-      
-  //     console.log(product.data.data)
-  //     setProducts(product.data.data);
-  //   }
-  //   fetchdata();
-  // }, [])
+  useEffect(() => {
+    async function fetchdata() {
+      try {
+        const response =  await axios.get(`http://34.126.93.124/api/menu`);
+        console.log(response.data.data)
+        setListProduct(response.data.data);
+        setTimeout(() => {
+          
+        }, 3000);
+        console.log(products)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchdata();
+  }, [])
+
 
   const onAdd = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);
@@ -63,7 +72,7 @@ function Order() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", width: "100%" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -85,6 +94,7 @@ function Order() {
           >
             Lau Chay Restaurant
           </Typography>
+          <Search menu={products} onAdd={onAdd} onRemove={onRemove}></Search>
         </Toolbar>
       </AppBar>
       <Box

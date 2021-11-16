@@ -32,29 +32,35 @@ function smartTrim(str, length, appendix) {
 
 function Cart(props) {
   const { cartItems, onAdd, onRemove } = props;
-  const {coupon, setCoupon} = useState(null);
-  const {isValid, setIsValid} = useState(false);
-  const {perDiscount, setPerDiscount} = useState(0);
+  const [cp, setCp] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [perDiscount, setPerDiscount] = useState(0);
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
-  const discount = itemsPrice * 0;
+  const discount = itemsPrice * perDiscount;
   const totalPrice = itemsPrice - discount;
 
-  
+  const handleCouponChange = (event) => {
+    setCp(event.target.value)
+    console.log(cp);
+  };
 
-  function validateCoupon(cp) {
+  function validateCoupon() {
     if(cp === null) return false;
       var Promotion = "LUCKY100";
-      var Amount = 20;
+      var Amount = 0.2;
       if(cp.toUpperCase()  === Promotion.toUpperCase()){
         setIsValid(true);
         setPerDiscount(Amount)
+        console.log("True")
         return true;
       } else {
         setIsValid(false)
+        setPerDiscount(0);
+        console.log("False")
         return false;
       }
-  }
+  };
 
 
   return (
@@ -65,7 +71,7 @@ function Cart(props) {
       <ShoppingCartIcon fontSize="large" style={{color: "#E43122", marginInline: 10}}/>
       <Typography variant="h4" sx={{color: "#E43122", fontWeight: "bold"}}>Your cart({cartItems.length})</Typography> 
     </Toolbar>
-    <Grid item container xs={12} sm={12} md={12}>
+      <Grid item container xs={12} sm={12} md={12}>
               <Grid item xs={6} container direction="row" justifyContent="flex-start"  alignItems="center">
               <Typography variant="body1" sx={{color: "#2E3A55", fontWeight: "bold"}}>Item</Typography>
               </Grid>
@@ -112,13 +118,19 @@ function Cart(props) {
       <Divider />   
       <Grid container rowSpacing={{ xs: 1, sm: 1, md: 1 }} sx={{ width: "100%",height: bottomHeight, paddingBlockEnd: 5}}>
         <Grid item  container xs={12} sm={12} md={12} direction="row" justifyContent="space-between"  alignItems="center">
-              <TextField id="outlined-required" label="Voucher" size="small"
+              <TextField 
+                  id="voucher" 
+                  label="Voucher" 
+                  size="small"
                   placeholder = "Code..."
-                  value = {coupon}
                   sx={{width: "70%", marginInlineEnd: 1}}
-                  onChangeText = {(text) => {setCoupon(text); console.log(coupon)}}
+                  onChange={handleCouponChange}
+                  value={cp}
               />
-              <Button variant="contained" size="large" style={{backgroundColor:"#E43122", borderRadius: 10, width: "20%",  height: 40}}>Check</Button>
+              <Button variant="contained" size="large" 
+              style={{backgroundColor:"#E43122", borderRadius: 10, width: "20%",  height: 40}}
+              onClick={validateCoupon}
+              >Check</Button>
            
         </Grid>
         <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
@@ -134,8 +146,17 @@ function Cart(props) {
                 <Typography variant="h6" color="#E43122" sx={{fontWeight: "bold"}}>${totalPrice.toFixed(2)}</Typography>  
         </Grid>
         <Grid item container xs={12} sm={12} md={12} direction="row" justifyContent="center"  alignItems="center"> 
-          {/* <ModelCustomer></ModelCustomer> */}
-          <Link style={{width: "100%"}} to={{pathname: '/checkout', cartItems }}>
+        {cartItems.length !== 0 ? 
+        (<Link style={{width: "100%"}} to={{pathname: '/checkout', cartItems, perDiscount }}>
+              <Button 
+              variant="contained" 
+              size="large" 
+              style={{backgroundColor:"#E43122", height: 50, borderRadius: 10}} 
+              fullWidth= {true} 
+              >Continue to payment</Button>
+          </Link>) :
+          (
+            <Link style={{width: "100%"}} to={{pathname: '/', cartItems }}>
               <Button 
               variant="contained" 
               size="large" 
@@ -143,6 +164,9 @@ function Cart(props) {
               fullWidth= {true} 
               >Continue to payment</Button>
           </Link>
+          )
+        }
+          
         </Grid>
       </Grid>
       </Paper>

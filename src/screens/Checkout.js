@@ -36,11 +36,13 @@ const theme = createTheme();
 
 export default function Checkout(props) {
   const [activeStep, setActiveStep] = useState(0);
-  const {cartItems} = (props.location) || {};
+  const {cartItems, perDiscount} = (props.location) || {};
   const [ship, setShip] = useState(null);
   const itemsPrice = cartItems ? cartItems.reduce((a, c) => a + c.qty * c.price, 0) : 0;
+  // const discount = itemsPrice * perDiscount;
   const totalPrice = itemsPrice ;
   useEffect(() => {
+    console.log("Coupon: " + perDiscount);
     console.log("Checkout: " + JSON.stringify(ship));
     console.log("Total price: " + totalPrice);
     return () => {

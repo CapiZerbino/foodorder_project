@@ -14,7 +14,7 @@ import axios from "axios";
 //   export default data; 
 
 const data = {
-  products: [
+  menu: [
     {
       id: 1,
       name: "Bread",
@@ -52,7 +52,7 @@ const data = {
       price: 2000,
       quantity: 15,
       category: "Appetizer",
-      is_available: 1,
+      is_available: 0,
       image: "https://test.greenup.com.vn/storage/4/1.jpg",
       description:
         "Grilled country bread with Roma tomatoes, olive oil, garlic and basil.",
@@ -63,7 +63,7 @@ const data = {
       price: 3000,
       quantity: 12,
       category: "Appetizer",
-      is_available: 1,
+      is_available: 0,
       image: "https://test.greenup.com.vn/storage/5/1.jpg",
       description: "Sweet Potato Crostini with Prosciutto Honey Roasted Figs",
     },

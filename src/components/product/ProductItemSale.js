@@ -9,7 +9,17 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-function ProductItem(props) {
+
+function smartTrim(str, length, appendix) {
+    if (str.length <= length) return str;
+  
+    var trimmedStr = str.substr(0, length);
+  
+    if (trimmedStr) trimmedStr += appendix;
+    return trimmedStr;
+  }
+  
+function ProductItemSale(props) {
   const { product } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -19,37 +29,32 @@ function ProductItem(props) {
   return (
     <Card
       sx={{
-        maxWidth: 300,
+        maxWidth: 200,
         backgroundColor: "#fff",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
         borderRadius: 4,
-        boxShadow: 3
+        boxShadow: 3, 
+        marginBlock: 2
       }}
     >
     <CardActionArea >
     <CardMedia
         component="img"
         image={product.image}
-        sx={{ height: 200, maxHeight: 200 }}
-        onClick={handleOpen}
+        sx={{ height: 100, maxHeight: 100 }}
       />
       <Grid container  direction="column" justifyContent="center"  alignItems="flex-start"> 
         <Grid item container  sx={{marginInline: 1, marginBlock: 1}} xs={12} sm={12} md={12} direction="row" justifyContent="flex-start"  alignItems="center"> 
         
-            <Typography variant="h6" color="black" gutterBottom onClick={handleOpen}>
-            {product.name}
+            <Typography variant="h6" color="black" gutterBottom>
+            {smartTrim(product.name, 15, '...')} 
           </Typography>
         </Grid>
         <Grid item container  sx={{marginInline: 1 }} xs={12} sm={12} md={12}> 
             <Grid item container xs={10} sm={10} md={10} direction="row" justifyContent="flex-start"  alignItems="center"> 
-                <Chip 
-                label={product.is_available ? "available" : "sold out"} 
-                color={product.is_available ? "success" : "default"}  
-                variant={product.is_available ? "filled" : "outlined"}  
-                size="small" sx={{marginInline: 1}}/>
                 <Typography variant="h6" color="#E43122">
                     ${product.price}
                 </Typography>
@@ -70,4 +75,4 @@ function ProductItem(props) {
   );
 }
 
-export default ProductItem;
+export default ProductItemSale;
