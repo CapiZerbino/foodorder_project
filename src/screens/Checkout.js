@@ -78,7 +78,7 @@ export default function Checkout(props) {
     }
     console.log(JSON.stringify(data));
     
-    axios.post(`http://34.126.93.124/api/order`, JSON.stringify(data))
+    axios.post(`https://test.greenup.com.vn/api/order`, JSON.stringify(data))
       .then(res => {
         console.log(res);
         console.log(res.data);

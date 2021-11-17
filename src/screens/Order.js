@@ -26,7 +26,7 @@ function Order() {
   useEffect(() => {
     async function fetchdata() {
       try {
-        const response =  await axios.get(`http://34.126.93.124/api/menu`);
+        const response =  await axios.get(`https://test.greenup.com.vn/api/menu`);
         console.log(response.data.data)
         setListProduct(response.data.data);
         setTimeout(() => {
