@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CircularIndeterminate from "./components/layout/LazyLoad";
@@ -10,12 +9,7 @@ function App() {
   return (
     <div className="app">
         <Suspense
-          fallback={
-            <Box>
-              <CircularIndeterminate></CircularIndeterminate>Loading...
-            </Box>
-          }
-        >
+          fallback={<CircularIndeterminate/>}>
         <Router>
           <Switch>
             <Route exact path="/" component={Order}></Route>

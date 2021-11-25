@@ -45,7 +45,7 @@ function ProductSlick(props) {
       infinite: true,
       speed: 500,
       centerMode: true,
-      slidesToShow: 5,
+      slidesToShow: 4,
       slidesToScroll: 3,
       lazyLoad: true,
       centerPadding: "60px",
