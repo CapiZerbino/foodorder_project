@@ -1,16 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import {
-  PayPalScriptProvider,
-  PayPalButtons,
-  usePayPalScriptReducer,
-} from "@paypal/react-paypal-js";
+import Typography from "@mui/material/Typography";
+import { PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import React, { useEffect, useState } from "react";
 
 // This values are the props in the UI
 const currency = "USD";
@@ -21,7 +16,10 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-
+  const [id, setID] = useState("");
+  function handleOrderID(e) {
+    setID(e);
+  }
   useEffect(() => {
     dispatch({
       type: "resetOptions",
@@ -54,16 +52,20 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
             })
             .then((orderId) => {
               // Your code here after create the order
-             
+             handleOrderID(orderId);
+             console.log(id)
               return orderId;
             });
         }}
         onApprove={function (data, actions) {
           return actions.order.capture().then(function () {
             // Your code here after capture the order
-            handleSubmit();
+            handleSubmit(id);
           });
         }}
+        onError={(err) => {
+        console.error('error from the onError callback', err);
+        }} 
       />
     </>
   );
@@ -76,37 +78,6 @@ export default function PaymentForm(props) {
   const handleChange = (event) => {
     setSelect(event.target.value);
   };
-  // const paypal = useRef();
-
-  // useEffect(() => {
-  //   console.log("Price: " + totalPrice);
-  //   window.paypal
-  //     .Buttons({
-  //       createOrder: (data, actions, err) => {
-  //         return actions.order.create({
-  //           intent: "CAPTURE",
-  //           purchase_units: [
-  //             {
-  //               description: "Payment for Lau Chay Restaurant",
-  //               amount: {
-  //                 currency_code: "USD",
-  //                 value: totalPrice,
-  //               },
-  //             },
-  //           ],
-  //         });
-  //       },
-  //       onApprove: async (data, actions) => {
-  //         const order = await actions.order.capture();
-  //         console.log(order);
-  //         handleSubmit();
-  //       },
-  //       onError: (err) => {
-  //         console.log(err);
-  //       },
-  //     })
-  //     .render(paypal.current);
-  // }, []);
 
   return (
     <React.Fragment>

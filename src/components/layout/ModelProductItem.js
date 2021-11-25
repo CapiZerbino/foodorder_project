@@ -1,16 +1,19 @@
-import React from 'react'
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Grid from "@mui/material/Grid";
-import CardMedia from "@mui/material/CardMedia";
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CardMedia from "@mui/material/CardMedia";
+import Divider from '@mui/material/Divider';
+import Fade from '@mui/material/Fade';
+import Grid from "@mui/material/Grid";
+import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { connect } from "react-redux";
+import { add, remove } from './../../store';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -65,7 +68,7 @@ function ModelProductItem(props) {
                             <Typography variant="body1" color="black">${product.price}</Typography>
                         </Grid>
                     </Grid>
-                    <Divider variant="middle" component="li" sx={{width: "100%", marginBlock: 1}} />
+                    <Divider variant="middle" sx={{width: "100%", marginBlock: 1}} />
                     <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
                         <Grid item container xs={6} sm={6} md={6}  direction="column" justifyContent="center"  alignItems="flex-start"> 
                             <Typography variant="h6" color="black">Available Item: {product.quantity}</Typography>
@@ -80,7 +83,7 @@ function ModelProductItem(props) {
                             </IconButton>
                         </Grid>
                     </Grid>
-                    <Divider variant="middle" component="li" sx={{width: "100%", marginBlock: 1}} />
+                    <Divider variant="middle"  sx={{width: "100%", marginBlock: 1}} />
                     <Grid item container xs={12} sm={12} md={12}  direction="column" justifyContent="space-between"  alignItems="center"> 
                         <Grid item container xs={12} sm={12} md={12}  direction="column" justifyContent="center"  alignItems="flex-start"> 
                             <Typography variant="h6" color="black">Description</Typography>
@@ -102,4 +105,11 @@ function ModelProductItem(props) {
     )
 }
 
-export default ModelProductItem
+  function mapDispatchToProps(dispatch) {
+    return {
+      onAdd: (product) => dispatch(add(product)),
+      onRemove: (product) => dispatch(remove(product))
+    };
+  }
+
+export default connect(null, mapDispatchToProps)(ModelProductItem);

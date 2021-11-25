@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Box from "@mui/material/Box";
-import ProductItemSale from './../product/ProductItemSale'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import Box from "@mui/material/Box";
+import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import ProductItemSale from './../product/ProductItemSale';
 
 
 function genRandomNumber(how_many_number,min,max) {
@@ -35,35 +35,30 @@ function genRandomNumber(how_many_number,min,max) {
 }
 
 function ProductSlick(props) {
-    const {products, onAdd, onRemove} = props;
+    const {products} = props;
     const random = genRandomNumber(10, 0, products.length)
     const product_sale = products.filter((item) => {
-        console.log(random.includes(item.id));
         return random.includes(item.id)
     });
-
-    useEffect(() => {
-       console.log(product_sale)
-    }, [])
-
     var settings = {
-    dots: true,
+        dots: true,
       infinite: true,
       speed: 500,
+      centerMode: true,
       slidesToShow: 5,
       slidesToScroll: 3,
       lazyLoad: true,
-      centerMode: true,
+      centerPadding: "60px",
       nextArrow: <KeyboardArrowRightIcon color="action" fontSize="large"/>,
       prevArrow: <KeyboardArrowLeftIcon color="action" fontSize="large"/>
   };
 
   return (
     <React.Fragment>
-    <Box sx={{ flexGrow: 1}}>
-    <Slider {...settings} style={{width: 1200, marginInline: 20}}>
+    <Box sx={{ width: "100%"}}>
+    <Slider {...settings} style={{width: "100%", paddingInline: 10, marginInline: 10}}>
         {product_sale.map((product, index) => (      
-            <ProductItemSale  product ={product} onAdd={onAdd} onRemove={onRemove}/>
+            <ProductItemSale  product ={product} key={index}/>
         ))}
         </Slider>
     </Box>

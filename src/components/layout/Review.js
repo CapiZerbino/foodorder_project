@@ -1,17 +1,17 @@
-import React , {useState, useEffect} from 'react';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import React, { useEffect } from 'react';
 
 
 export default function Review(props) {
   const {cartItems, shipInfo} = props;
   const info = shipInfo
-  const itemsPrice = cartItems ? cartItems.reduce((a, c) => a + c.qty * c.price, 0) : 0;
-  const discount = itemsPrice * 0.14;
-  const totalPrice = itemsPrice - discount;
+  const itemsPrice = cartItems ? cartItems.reduce((a, c) => a + c.qty * c.product.price, 0) : 0;
+  // const discount = itemsPrice;
+  const totalPrice = itemsPrice;
 
   useEffect(() => {
     console.log("Review: " + info.name + " " + info.address + " " + info.phoneNumber );
@@ -25,10 +25,10 @@ export default function Review(props) {
         Order summary
       </Typography>
       <List disablePadding>
-        {cartItems && cartItems.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={product.name} secondary={product.description} />
-            <Typography variant="body2">${product.price}</Typography>
+        {cartItems && cartItems.map((item) => (
+          <ListItem key={item.product.name} sx={{ py: 1, px: 0 }}>
+            <ListItemText primary={item.product.name} secondary={item.product.description} />
+            <Typography variant="body2">${item.product.price}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>

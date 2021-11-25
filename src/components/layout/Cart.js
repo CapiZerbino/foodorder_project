@@ -1,20 +1,22 @@
-import React, {useState} from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import {Link} from 'react-router-dom'
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import List from '@mui/material/List';
 import ListItem from "@mui/material/ListItem";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link } from 'react-router-dom';
+import { add, remove } from './../../store';
 
 
 var h = window.innerHeight;
@@ -36,13 +38,12 @@ function Cart(props) {
   const [isValid, setIsValid] = useState(false);
   const [perDiscount, setPerDiscount] = useState(0);
 
-  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
+  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.product.price, 0);
   const discount = itemsPrice * perDiscount;
   const totalPrice = itemsPrice - discount;
 
   const handleCouponChange = (event) => {
-    setCp(event.target.value)
-    console.log(cp);
+    setCp(event.target.value);
   };
 
   function validateCoupon() {
@@ -92,25 +93,25 @@ function Cart(props) {
           <ListItem key={index}>
             <Grid item xs={2} container direction="row" justifyContent="flex-start"  alignItems="center">
             <Avatar
-                src={item.image}
+                src={item.product.image}
                 sx={{ width: 56, height: 56, marginRight: 2 }}
               />
             </Grid>
             <Grid item xs={4} container direction="column" justifyContent="flex-start"  alignItems="flex-start">
-                <Typography variant="body1" color="black" sx={{color: "#2E3A55", fontWeight: "bold"}}>{smartTrim(item.name, 22, '...')} </Typography>
-                <Typography variant="body2" color="#ABBBC2">${item.price} </Typography>
+                <Typography variant="body1" color="black" sx={{color: "#2E3A55", fontWeight: "bold"}}>{smartTrim(item.product.name, 22, '...')} </Typography>
+                <Typography variant="body2" color="#ABBBC2">${item.product.price} </Typography>
             </Grid>
             <Grid item xs={3}  container direction="row" justifyContent="center"  alignItems="center">
-                <IconButton aria-label="Decrease" onClick={() => onRemove(item)}>
+                <IconButton aria-label="Decrease" onClick={() => onRemove(item.product)}>
                     <IndeterminateCheckBoxRoundedIcon color="action" style={{color: "#E43122"}}/>  
                 </IconButton>
                 <Typography variant="body1" color="black">{item.qty} </Typography>
-                <IconButton aria-label="Increase" onClick={() => onAdd(item)}>
+                <IconButton aria-label="Increase" onClick={() => onAdd(item.product)}>
                       <AddBoxRoundedIcon color="action" style={{color: "#E43122"}}/>  
                 </IconButton>
             </Grid>
             <Grid item xs={3} container direction="row" justifyContent="flex-end"  alignItems="center">
-                <Typography variant="h6" color="#E43122">${item.price.toFixed(2)*item.qty}</Typography>
+                <Typography variant="h6" color="#E43122">${item.product.price.toFixed(2)*item.qty}</Typography>
             </Grid>
           </ListItem>
         ))}
@@ -147,7 +148,7 @@ function Cart(props) {
         </Grid>
         <Grid item container xs={12} sm={12} md={12} direction="row" justifyContent="center"  alignItems="center"> 
         {cartItems.length !== 0 ? 
-        (<Link style={{width: "100%"}} to={{pathname: '/checkout', cartItems, perDiscount }}>
+        (<Link style={{width: "100%", textDecoration: "none"}} to={{pathname: '/checkout', perDiscount }}>
               <Button 
               variant="contained" 
               size="large" 
@@ -156,7 +157,7 @@ function Cart(props) {
               >Continue to payment</Button>
           </Link>) :
           (
-            <Link style={{width: "100%"}} to={{pathname: '/', cartItems }}>
+            <Link style={{width: "100%", textDecoration: "none"}} to={{pathname: '/'}}>
               <Button 
               variant="contained" 
               size="large" 
@@ -173,4 +174,14 @@ function Cart(props) {
   );
 }
 
-export default Cart;
+function mapStateToProps(state) {
+  return { cartItems: state };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    onAdd: (product) => dispatch(add(product)),
+    onRemove: (product) => dispatch(remove(product))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

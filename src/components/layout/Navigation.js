@@ -1,11 +1,11 @@
-import React from 'react'
-import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
+import React from 'react';
 
 
 const Search = styled('div')(({ theme }) => ({

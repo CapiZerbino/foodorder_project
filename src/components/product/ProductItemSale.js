@@ -1,15 +1,15 @@
-import React from "react";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { CardActionArea } from '@mui/material';
+import Box from '@mui/material/Box';
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import ModelProductItem from './../layout/ModelProductItem'
 import Grid from "@mui/material/Grid";
-import { CardActionArea } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { connect } from "react-redux";
+import { add, remove } from './../../store';
+import ModelProductItem from './../layout/ModelProductItem';
 function smartTrim(str, length, appendix) {
     if (str.length <= length) return str;
   
@@ -70,9 +70,14 @@ function ProductItemSale(props) {
         </Grid>
       </Grid>
     </CardActionArea>
-    <ModelProductItem product ={product} onAdd={props.onAdd} onRemove={props.onRemove} handleClose={handleClose} open={open} ></ModelProductItem>
+    <ModelProductItem product ={product} handleClose={handleClose} open={open} ></ModelProductItem>
     </Card>
   );
 }
-
-export default ProductItemSale;
+function mapDispatchToProps(dispatch) {
+  return {
+    onAdd: (product) => dispatch(add(product)),
+    onRemove: (product) => dispatch(remove(product))
+  };
+}
+export default connect(null, mapDispatchToProps)(ProductItemSale);

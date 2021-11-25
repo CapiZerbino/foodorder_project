@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import ProductList from "./../product/ProductList";
+import { red } from '@mui/material/colors';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ProductSlick from './ProductSlick'
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import { red } from '@mui/material/colors';
-import FlashSale from './FlashSale'
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import ProductList from "./../product/ProductList";
+import FlashSale from './FlashSale';
+import ProductSlick from './ProductSlick';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -63,6 +62,7 @@ function ProductCategory(props) {
   }, [products]);
 
   return (
+    <React.Fragment>
     <Box
       sx={{
         width: "100%",
@@ -78,10 +78,7 @@ function ProductCategory(props) {
       >
       <FlashSale></FlashSale>
       <ListItem>
-        <ProductSlick products={products}
-          onAdd={props.onAdd}
-            onRemove={props.onRemove}
-        ></ProductSlick>
+        <ProductSlick products={products}></ProductSlick>
       </ListItem>
       </List>
       <Tabs
@@ -95,20 +92,13 @@ function ProductCategory(props) {
       >
         {category ? (
           category.map((item, key) => (
-            <Tab sx={{color: red[500], fontWeight: "bold"}} label={item} {...a11yProps({ key })} />
+            <Tab sx={{color: red[500], fontWeight: "bold"}} label={item} {...a11yProps({ key })} key={key} />
           ))
         ) : (
           <Tab label="Default" {...a11yProps(0)} />
         )}
       </Tabs>
      
-      {/* <Typography
-        variant="h6"
-        color="black"
-        sx={{ marginBlock: 1, paddingInlineStart: 5 }}
-      >
-        Choose menu
-      </Typography> */}
       <List
         sx={{
           overflowY: "auto",
@@ -121,13 +111,11 @@ function ProductCategory(props) {
         {category ? (
           category.map((item, key) => (
             <ListItem>
-              <TabPanel value={value} index={key}>
+              <TabPanel value={value} index={key} >
                 <ProductList
                   products={products.filter(function (el) {
                     return el["category"] === item;
                   })}
-                  onAdd={props.onAdd}
-                  onRemove={props.onRemove}
                 />
               </TabPanel>
             </ListItem>
@@ -139,6 +127,7 @@ function ProductCategory(props) {
         )}
       </List>
     </Box>
+    </React.Fragment>
   );
 }
 

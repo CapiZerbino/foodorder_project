@@ -1,10 +1,13 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import { Box } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import ModelProductItem from "./../layout/ModelProductItem";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import * as React from "react";
+import { connect } from "react-redux";
+import { add, remove } from './../../store';
+import ModelProductItem from "./../layout/ModelProductItem";
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -12,7 +15,7 @@ function sleep(delay = 0) {
   });
 }
 
-export default function Search(props) {
+function Search(props) {
   const { menu } = props;
   const [opens, setOpens] = React.useState(false);
   const [options, setOptions] = React.useState([]);
@@ -54,7 +57,7 @@ export default function Search(props) {
   }
 
   return (
-    <>
+    <Box display="flex">
       <Autocomplete
         id="asynchronous-demo"
         sx={{ width: 250}}
@@ -106,6 +109,15 @@ export default function Search(props) {
           open={open}
         ></ModelProductItem>
       ) : null}
-    </>
+    </Box>
   );
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    onAdd: (product) => dispatch(add(product)),
+    onRemove: (product) => dispatch(remove(product))
+  };
+}
+export default connect(null, mapDispatchToProps)(Search);
+
+
