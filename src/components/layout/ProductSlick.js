@@ -1,7 +1,7 @@
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { useMemo } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -37,9 +37,9 @@ function genRandomNumber(how_many_number,min,max) {
 function ProductSlick(props) {
     const {products} = props;
     const random = genRandomNumber(10, 0, products.length)
-    const product_sale = products.filter((item) => {
+    const product_sale = useMemo( () => products.filter((item) => {
         return random.includes(item.id)
-    });
+    }), [products])
     var settings = {
         dots: true,
       infinite: true,
