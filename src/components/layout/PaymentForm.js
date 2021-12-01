@@ -12,7 +12,7 @@ const currency = "USD";
 const style = { layout: "vertical" };
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
+const ButtonWrapper = ({ currency,discount, showSpinner, handleSubmit }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
@@ -36,7 +36,7 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
       <PayPalButtons
         style={style}
         disabled={false}
-        forceReRender={[totalPrice, currency, style]}
+        forceReRender={[discount, currency, style]}
         fundingSource={undefined}
         createOrder={(data, actions) => {
           return actions.order
@@ -45,7 +45,7 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
                 {
                   amount: {
                     currency_code: currency,
-                    value: totalPrice,
+                    value: discount,
                   },
                 },
               ],
@@ -60,7 +60,7 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
         onApprove={function (data, actions) {
           return actions.order.capture().then(function () {
             // Your code here after capture the order
-            handleSubmit(id);
+            handleSubmit("paypal");
           });
         }}
         onError={(err) => {
@@ -72,7 +72,7 @@ const ButtonWrapper = ({ currency,totalPrice, showSpinner, handleSubmit }) => {
 };
 
 export default function PaymentForm(props) {
-  const { totalPrice, handleSubmit } = props;
+  const { discount, handleSubmit } = props;
   const [select, setSelect] = useState("paypal");
 
   const handleChange = (event) => {
@@ -108,7 +108,7 @@ export default function PaymentForm(props) {
                   currency: "USD",
                 }}
               >
-                <ButtonWrapper currency={currency} totalPrice={totalPrice} showSpinner={false} handleSubmit={handleSubmit} />
+                <ButtonWrapper currency={currency} discount={discount} showSpinner={false} handleSubmit={handleSubmit} />
               </PayPalScriptProvider>
             </div>
           )}

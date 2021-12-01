@@ -13,11 +13,11 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
-import { add, remove } from './../../store';
-
+import { add, calDiscount, remove } from './../../store';
+import newVoucher from './../functions/Voucher';
 
 var h = window.innerHeight;
 const bottomHeight = h* 0.4;
@@ -33,33 +33,50 @@ function smartTrim(str, length, appendix) {
 }
 
 function Cart(props) {
-  const { cartItems, onAdd, onRemove } = props;
+  const { cartItems, onAdd, onRemove , price, discount, calDiscount} = props;
   const [cp, setCp] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [perDiscount, setPerDiscount] = useState(0);
-
-  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.product.price, 0);
-  const discount = itemsPrice * perDiscount;
-  const totalPrice = itemsPrice - discount;
+  const [isValid, setIsValid] = useState(true);
+  const [amount, setAmount] = useState(0);
+  const [voucherID, setVoucherID] = useState(null);
+  //  const itemsPrice = useMemo(() => {initialCoupon(); return totalPrice.getTotal(cartItems); }, [cartItems])
+  // const total = useMemo(() => {return totalPrice.getTotalFinal(cartItems, amount)}, [cartItems, amount]);
 
   const handleCouponChange = (event) => {
+    event.preventDefault();
     setCp(event.target.value);
   };
 
-  function validateCoupon() {
-    if(cp === null) return false;
-      var Promotion = "LUCKY100";
-      var Amount = 0.2;
-      if(cp.toUpperCase()  === Promotion.toUpperCase()){
+  useEffect(() => {
+    initialCoupon();
+  }, [cartItems])
+
+  function initialCoupon(){
+    setCp("");
+    setAmount(0);
+    setVoucherID(null);
+  }
+
+  async function validateCoupon() {
+    setIsValid(null);
+    setAmount(0);
+    setVoucherID(null);
+    if(cp === "") return;
+      var Promotion = "";
+      var Amount = 0;
+      var Type = "";
+      const getCoupon = await newVoucher.getCoupon(cp)
+      if(getCoupon){
+        Amount = getCoupon.data.deduction_amount;
+        Promotion = getCoupon.data.voucher_id;
+        Type = getCoupon.data.type;
         setIsValid(true);
-        setPerDiscount(Amount)
-        console.log("True")
-        return true;
-      } else {
+        setVoucherID(Promotion);
+        setAmount(newVoucher.handleDiscount(Type,price,Amount));
+        const objDis = { amount : getCoupon.data.deduction_amount, type : getCoupon.data.type}
+        calDiscount(objDis)
+      }else {
         setIsValid(false)
-        setPerDiscount(0);
         console.log("False")
-        return false;
       }
   };
 
@@ -118,37 +135,38 @@ function Cart(props) {
       </List>
       <Divider />   
       <Grid container rowSpacing={{ xs: 1, sm: 1, md: 1 }} sx={{ width: "100%",height: bottomHeight, paddingBlockEnd: 5}}>
-        <Grid item  container xs={12} sm={12} md={12} direction="row" justifyContent="space-between"  alignItems="center">
+        <Grid item  container xs={12} sm={12} md={12} direction="row" justifyContent="space-between"  alignItems="flex-start" sx= {{marginBlockStart: 2}}>
               <TextField 
-                  id="voucher" 
+                  error = {isValid ? false : true}
+                  id={isValid ? "voucher" : "outlined-error-helper-text"} 
                   label="Voucher" 
                   size="small"
                   placeholder = "Code..."
                   sx={{width: "70%", marginInlineEnd: 1}}
                   onChange={handleCouponChange}
                   value={cp}
+                  helperText={isValid ? "" : "Coupon is invalid!!!"}
               />
               <Button variant="contained" size="large" 
               style={{backgroundColor:"#E43122", borderRadius: 10, width: "20%",  height: 40}}
               onClick={validateCoupon}
-              >Check</Button>
-           
+              >Check</Button>    
         </Grid>
         <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
                 <Typography variant="body1" color="black">Items Price</Typography>
-                <Typography variant="body1" color="black">${itemsPrice.toFixed(2)}</Typography>  
+                <Typography variant="body1" color="black">${price.toFixed(2)}</Typography>  
         </Grid>
         <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
                 <Typography variant="body1" color="black">Discount</Typography>
-                <Typography variant="body1" color="black">${discount.toFixed(2)}</Typography>  
+                <Typography variant="body1" color="black">- ${amount.toFixed(2)}</Typography>  
         </Grid>
         <Grid item container xs={12} sm={12} md={12}  direction="row" justifyContent="space-between"  alignItems="center"> 
                 <Typography variant="h6" color="black" sx={{fontWeight: "bold"}}>Total Price</Typography>
-                <Typography variant="h6" color="#E43122" sx={{fontWeight: "bold"}}>${totalPrice.toFixed(2)}</Typography>  
+                <Typography variant="h6" color="#E43122" sx={{fontWeight: "bold"}}>${discount.toFixed(2)}</Typography>  
         </Grid>
         <Grid item container xs={12} sm={12} md={12} direction="row" justifyContent="center"  alignItems="center"> 
         {cartItems.length !== 0 ? 
-        (<Link style={{width: "100%", textDecoration: "none"}} to={{pathname: '/checkout', perDiscount }}>
+        (<Link style={{width: "100%", textDecoration: "none"}} to={{pathname: '/checkout', voucherID}}>
               <Button 
               variant="contained" 
               size="large" 
@@ -175,12 +193,13 @@ function Cart(props) {
 }
 
 function mapStateToProps(state) {
-  return { cartItems: state };
+  return { cartItems: state.cart, price: state.total, discount: state.discount};
 }
 function mapDispatchToProps(dispatch) {
   return {
     onAdd: (product) => dispatch(add(product)),
-    onRemove: (product) => dispatch(remove(product))
+    onRemove: (product) => dispatch(remove(product)),
+    calDiscount: (objDis) => dispatch(calDiscount(objDis)),
   };
 }
 

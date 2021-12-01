@@ -16,7 +16,6 @@ import LogoHeader from "../components/utils/LogoHeader";
 import AddressForm from "./../components/layout/AddressForm";
 import PaymentForm from "./../components/layout/PaymentForm";
 import Review from "./../components/layout/Review";
-
 const steps = ["Shipping address", "Review your order", "Payment details"];
 
 function getStepContent(
@@ -24,7 +23,7 @@ function getStepContent(
   cartItems,
   getData,
   shipInfo,
-  totalPrice,
+  discount,
   handleSubmit
 ) {
   switch (step) {
@@ -34,7 +33,7 @@ function getStepContent(
       return <Review cartItems={cartItems} shipInfo={shipInfo} />;
     case 2:
       return (
-        <PaymentForm totalPrice={totalPrice} handleSubmit={handleSubmit} />
+        <PaymentForm discount={discount} handleSubmit={handleSubmit} />
       );
     default:
       throw new Error("Unknown step");
@@ -45,20 +44,14 @@ const theme = createTheme();
 
 function Checkout(props) {
   const [activeStep, setActiveStep] = useState(0);
-  const { cartItems, perDiscount } = props;
+  const { cartItems, price, discount } = props;
+  console.log(props.location.voucherID)
   const [ship, setShip] = useState(null);
-  const [orderID, setOrderID] = useState("");
-  const itemsPrice = cartItems
-    ? cartItems.reduce((a, c) => a + c.qty * c.product.price, 0)
-    : 0;
-  // const discount = itemsPrice * perDiscount;
-  const totalPrice = itemsPrice;
   useEffect(() => {
-    console.log("Coupon: " + perDiscount);
     console.log("Checkout: " + JSON.stringify(ship));
-    console.log("Total price: " + totalPrice);
+    console.log("Total price: " + discount);
     return () => {};
-  }, [ship]);
+  }, [ship, discount]);
 
   const getData = (data) => {
     setShip(data);
@@ -67,23 +60,22 @@ function Checkout(props) {
 
   const handleNext = () => {
     console.log(activeStep)
+    // if(activeStep  === steps.length -1) handleSubmit("cash");
     setActiveStep(activeStep + 1);
-
+    
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleSubmit = (order) => {
-    setOrderID(order);
-    const data = {
-      customer_id: "1",
+  const handleSubmit = (type) => {
+    const obj = {
       phoneNumber: ship.phoneNumber,
-      total: totalPrice.toString(),
-      voucher_id: null,
+      total: price.toString(),
+      voucher_id: props.location.voucherID,
       address: ship.address,
-      payment_method: "paypal",
+      payment_method: type,
       order_items: cartItems.map((item) => {
         return {
           menu_id: item.product.id.toString(),
@@ -92,7 +84,7 @@ function Checkout(props) {
       }),
     };
     axios
-      .post(`https://test.greenup.com.vn/api/order`, JSON.stringify(data))
+      .post(`https://test.greenup.com.vn/api/order`, JSON.stringify(obj))
       .then((res) => {
         console.log(res);
       })
@@ -136,7 +128,7 @@ function Checkout(props) {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #{orderID}.
+                  Your order number is #654623113.
                 </Typography>
               </React.Fragment>
             ) : (
@@ -146,7 +138,7 @@ function Checkout(props) {
                   cartItems,
                   getData,
                   ship,
-                  totalPrice,
+                  discount,
                   handleSubmit
                 )}
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -174,6 +166,6 @@ function Checkout(props) {
   );
 }
 function mapStateToProps(state) {
-  return { cartItems: state };
+  return { cartItems: state.cart, price: state.total, discount: state.discount };
 }
 export default connect(mapStateToProps, null)(Checkout);
