@@ -105,13 +105,14 @@ function Cart(props) {
     </Box>
       
       <Divider sx={{marginBlock: 1}} />  
+      
+      <List  sx={{overflowY: "auto", overflowX: "hidden", maxHeight: middleHeight, height: middleHeight ,width: "inherit", paddingInlineEnd: 1}}>
       {cartItems.length === 0 && 
       <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
       <AddShoppingCartIcon  sx={{height: 50, width: 50, color: "#6e6d6d"}} ></AddShoppingCartIcon>
       <div>Cart is empty</div>
       </Box>
       }
-      <List  sx={{overflowY: "auto", overflowX: "hidden", maxHeight: middleHeight, height: middleHeight ,width: "inherit", paddingInlineEnd: 1}}>
         {cartItems.map((item, index) => (
           <ListItem key={index}>
             <Grid item xs={2} container direction="row" justifyContent="flex-start"  alignItems="center">
