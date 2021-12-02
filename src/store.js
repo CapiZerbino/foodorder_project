@@ -47,17 +47,23 @@ const cartItemsSlice = createSlice({
         calDiscount: (state, action) => {
             const itemsPrice = state.cart.reduce((a, c) => a + c.qty * c.product.price,0);
             var dis = 0;
-
+            console.log(action.payload);
             if(action.payload.type === "percentage"){
                 dis =  (itemsPrice*action.payload.amount)/100;
-            } else if(action.payload.type === "amount" && action.payload.amount <= itemsPrice){
+                console.log(dis);
+            } else 
+            if(action.payload.type === "amount" && action.payload.amount <= itemsPrice){
+               
                 dis = action.payload.amount;
-            } else if(action.payload.type === "amount" && action.payload.amount > itemsPrice){
+                console.log(dis);
+            } else 
+            if(action.payload.type === "amount" && action.payload.amount > itemsPrice){
                 dis = itemsPrice - 1;
+                console.log(dis);
             }
             const totalPrice = itemsPrice - dis;
             state.discount = totalPrice;
-            console.log(action.payload);
+            // console.log(action.payload);
         } 
     }
 })

@@ -67,13 +67,14 @@ function Cart(props) {
       var Type = "";
       const getCoupon = await newVoucher.getCoupon(cp)
       if(getCoupon){
+        console.table(getCoupon.data)
         Amount = getCoupon.data.deduction_amount;
         Promotion = getCoupon.data.voucher_id;
-        Type = getCoupon.data.type;
+        Type = getCoupon.data.type.toLowerCase();
         setIsValid(true);
         setVoucherID(Promotion);
         setAmount(newVoucher.handleDiscount(Type,price,Amount));
-        const objDis = { amount : getCoupon.data.deduction_amount, type : getCoupon.data.type}
+        const objDis = { amount : Amount, type : Type}
         calDiscount(objDis)
       }else {
         setIsValid(false)
