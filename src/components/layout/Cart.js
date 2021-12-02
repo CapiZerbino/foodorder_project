@@ -1,4 +1,5 @@
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Avatar from "@mui/material/Avatar";
@@ -104,7 +105,12 @@ function Cart(props) {
     </Box>
       
       <Divider sx={{marginBlock: 1}} />  
-      {cartItems.length === 0 && <div>Cart is empty</div>}
+      {cartItems.length === 0 && 
+      <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+      <AddShoppingCartIcon  sx={{height: 50, width: 50, color: "#6e6d6d"}} ></AddShoppingCartIcon>
+      <div>Cart is empty</div>
+      </Box>
+      }
       <List  sx={{overflowY: "auto", overflowX: "hidden", maxHeight: middleHeight, height: middleHeight ,width: "inherit", paddingInlineEnd: 1}}>
         {cartItems.map((item, index) => (
           <ListItem key={index}>
