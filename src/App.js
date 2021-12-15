@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import CircularIndeterminate from "./components/layout/LazyLoad";
+import CircularIndeterminate from "./components/utils/LazyLoad";
 import "./styles/style.css";
 const Checkout = lazy(() => import("./screens/Checkout"));
 const Order = lazy(() => import("./screens/Order"));

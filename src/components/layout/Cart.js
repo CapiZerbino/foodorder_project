@@ -39,8 +39,6 @@ function Cart(props) {
   const [isValid, setIsValid] = useState(true);
   const [amount, setAmount] = useState(0);
   const [voucherID, setVoucherID] = useState(null);
-  //  const itemsPrice = useMemo(() => {initialCoupon(); return totalPrice.getTotal(cartItems); }, [cartItems])
-  // const total = useMemo(() => {return totalPrice.getTotalFinal(cartItems, amount)}, [cartItems, amount]);
 
   const handleCouponChange = (event) => {
     event.preventDefault();

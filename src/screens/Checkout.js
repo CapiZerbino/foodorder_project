@@ -128,7 +128,7 @@ function Checkout(props) {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #654623113.
+                  We will prepare your order soon.
                 </Typography>
               </React.Fragment>
             ) : (
