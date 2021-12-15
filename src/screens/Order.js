@@ -20,7 +20,7 @@ function Order() {
     async function fetchdata() {
       try {
         const response = await axios.get(
-          `https://test.greenup.com.vn/api/menu`
+          `http://34.126.93.124/api/menu`
         );
         setListProduct(response.data.data);
         setTimeout(() => {}, 3000);

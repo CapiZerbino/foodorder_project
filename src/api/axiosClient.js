@@ -4,8 +4,7 @@ import queryString from "query-string";
 
 // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
 const axiosClient = axios.create({
-  // baseURL: "https://test.greenup.com.vn/api",
-  baseURL: "http://34.126.93.124/api/menu",
+  baseURL: "https://test.greenup.com.vn/api",
   headers: {
     "content-type": "application/json",
   },
