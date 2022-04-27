@@ -20,8 +20,10 @@ function Order() {
     async function fetchdata() {
       try {
         const response = await axios.get(
-          `http://34.126.93.124/api/menu`
+          `https://e380-116-98-1-157.ap.ngrok.io/api/menu`
         );
+        // const response = data;
+        // setListProduct(response);
         setListProduct(response.data.data);
         setTimeout(() => {}, 3000);
       } catch (err) {
@@ -54,7 +56,7 @@ function Order() {
             elevation={0}
             
           >
-              <LogoHeader text="Lau Chay Restaurant" type="Home"></LogoHeader>
+              <LogoHeader text="POS 3.0 System" type="Home"></LogoHeader>
               <Search menu={products}></Search>
           </AppBar>
           <Box
